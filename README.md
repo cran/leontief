@@ -1,10 +1,11 @@
-
 # leontief
 
 <!-- badges: start -->
-[![R build status](https://github.com/pachamaltese/leontief/workflows/R-CMD-check/badge.svg)](https://github.com/pachamaltese/leontief/actions)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![Codecov test coverage](https://codecov.io/gh/pachamaltese/leontief/branch/master/graph/badge.svg)](https://codecov.io/gh/pachamaltese/leontief?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/leontief)](https://cran.r-project.org/package=leontief)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://www.tidyverse.org/lifecycle/#stable (https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![Codecov test coverage](https://codecov.io/gh/pachadotdev/leontief/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pachadotdev/leontief?branch=main)
+[![R-CMD-check](https://github.com/pachadotdev/leontief/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pachadotdev/leontief/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of leontief is to provide an implementation of the Input-Output 
@@ -13,10 +14,14 @@ different sectors of a national economy or different regional economies.
 
 ## Installation
 
-This package is not available from CRAN at the present time. It can be installed
-from GitHub by running:
+Stable version (CRAN):
 ``` r
-source("https://install-github.me/pachamaltese/leontief")
+install.packages("leontief")
+```
+
+Development version (GitHub):
+``` r
+remotes::install_github("pachadotdev/leontief")
 ```
 
 ## Example
@@ -34,8 +39,8 @@ d <- rnorm(10)
 input_requirement_matrix(X,d)
 ```
 
-## Code of conduct
+Please read the vignette for the details.
 
-Please note that the 'leontief' project is released with a
-[Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md).
-By contributing to this project, you agree to abide by its terms.
+## Code of Conduct
+  
+Please note that the leontief project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

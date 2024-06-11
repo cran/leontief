@@ -1,10 +1,10 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 library(knitr)
-options(scipen=1, digits=3)
+options(scipen = 1, digits = 3)
 
 ## -----------------------------------------------------------------------------
 library(leontief)
@@ -17,7 +17,7 @@ e <- employment_matrix[, "employees"]
 
 ## -----------------------------------------------------------------------------
 A <- input_requirement(X, d)
-A_aug <- augmented_input_requirement(X,w,c,d)
+A_aug <- augmented_input_requirement(X, w, c, d)
 rownames(A_aug) <- c(rownames(X), "wage_over_demand")
 colnames(A_aug) <- c(rownames(X), "consumption_over_demand")
 kable(A_aug)
@@ -29,7 +29,7 @@ colnames(B) <- rownames(X)
 kable(B)
 
 ## -----------------------------------------------------------------------------
-L <- leontief_inverse(A); 
+L <- leontief_inverse(A)
 rownames(L) <- rownames(X)
 colnames(L) <- rownames(X)
 kable(L)
@@ -44,13 +44,13 @@ kable(eq)
 out <- output_multiplier(L)
 
 ## -----------------------------------------------------------------------------
-inc <- income_multiplier(L, w/d)
+inc <- income_multiplier(L, w / d)
 
 ## -----------------------------------------------------------------------------
-emp <- employment_multiplier(L, e/d)
+emp <- employment_multiplier(L, e / d)
 
 ## -----------------------------------------------------------------------------
-sm <- round(cbind(out,inc,emp),4)
+sm <- round(cbind(out, inc, emp), 4)
 rownames(sm) <- rownames(X)
 colnames(sm) <- c("output_multiplier", "income_multiplier", "employment_multiplier")
 kable(sm)
@@ -58,7 +58,7 @@ kable(sm)
 ## -----------------------------------------------------------------------------
 bl <- backward_linkage(A)
 fl <- forward_linkage(A)
-bfl <- cbind(bl,fl)
+bfl <- cbind(bl, fl)
 rownames(bfl) <- rownames(X)
 colnames(bfl) <- c("backward_linkage", "forward_linkage")
 kable(bfl)
@@ -66,7 +66,7 @@ kable(bfl)
 ## -----------------------------------------------------------------------------
 bl <- power_dispersion(L)
 bl_cv <- power_dispersion_cv(L)
-bl_t <- cbind(bl,bl_cv)
+bl_t <- cbind(bl, bl_cv)
 rownames(bl_t) <- rownames(X)
 colnames(bl_t) <- c("power_dispersion", "power_dispersion_cv")
 kable(bl_t)
@@ -74,7 +74,7 @@ kable(bl_t)
 ## -----------------------------------------------------------------------------
 sl <- sensitivity_dispersion(L)
 sl_cv <- sensitivity_dispersion_cv(L)
-sl_t <- cbind(sl,sl_cv)
+sl_t <- cbind(sl, sl_cv)
 rownames(sl_t) <- rownames(X)
 colnames(sl_t) <- c("power_dispersion", "power_dispersion_cv")
 kable(sl_t)
@@ -88,7 +88,7 @@ kable(mp)
 ## -----------------------------------------------------------------------------
 bli <- backward_linkage(A_aug)
 fli <- forward_linkage(A_aug)
-bfli <- cbind(bli,fli)
+bfli <- cbind(bli, fli)
 rownames(bfli) <- c(rownames(X), "wage")
 # wie = with induced effect
 colnames(bfli) <- c("backward_linkage_wie", "forward_linkage_wie")

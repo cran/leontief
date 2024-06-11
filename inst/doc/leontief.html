@@ -14,6 +14,19 @@
 
 <title>Leontief’s Input-Output Model in R</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 <script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
 // v0.0.1
 // Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
@@ -31,22 +44,38 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
-<style type="text/css">code{white-space: pre;}</style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -66,7 +95,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -106,13 +135,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -120,6 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
+
 
 
 
@@ -322,23 +359,23 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="common-variables" class="section level2">
 <h2>Common variables</h2>
 <p>Let <code>X</code> be the input-output matrix, <code>w</code> the wage vector, <code>c</code> the household consumption vector, <code>d</code> the total final demand vector, and <code>e</code> the employment coefficient.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(leontief)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>X &lt;-<span class="st"> </span>transaction_matrix</span>
-<span id="cb1-4"><a href="#cb1-4"></a>w &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;wage&quot;</span>]</span>
-<span id="cb1-5"><a href="#cb1-5"></a>c &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;household_consumption&quot;</span>]</span>
-<span id="cb1-6"><a href="#cb1-6"></a>d &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;final_total_demand&quot;</span>]</span>
-<span id="cb1-7"><a href="#cb1-7"></a>e &lt;-<span class="st"> </span>employment_matrix[, <span class="st">&quot;employees&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">library</span>(leontief)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>X &lt;-<span class="st"> </span>transaction_matrix</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>w &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;wage&quot;</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>c &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;household_consumption&quot;</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>d &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;final_total_demand&quot;</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>e &lt;-<span class="st"> </span>employment_matrix[, <span class="st">&quot;employees&quot;</span>]</span></code></pre></div>
 </div>
 <div id="input-requirement-matrix" class="section level2">
 <h2>Input requirement matrix</h2>
 <p>Let <code>A</code> be the direct coefficients matrix.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>A &lt;-<span class="st"> </span><span class="kw">input_requirement</span>(X, d)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>A_aug &lt;-<span class="st"> </span><span class="kw">augmented_input_requirement</span>(X,w,c,d)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">rownames</span>(A_aug) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;wage_over_demand&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">colnames</span>(A_aug) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;consumption_over_demand&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">kable</span>(A_aug)</span></code></pre></div>
-<table>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>A &lt;-<span class="st"> </span><span class="kw">input_requirement</span>(X, d)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>A_aug &lt;-<span class="st"> </span><span class="kw">augmented_input_requirement</span>(X, w, c, d)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">rownames</span>(A_aug) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;wage_over_demand&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="kw">colnames</span>(A_aug) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;consumption_over_demand&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="kw">kable</span>(A_aug)</span></code></pre></div>
+<table style="width:100%;">
 <colgroup>
 <col width="12%"></col>
 <col width="6%"></col>
@@ -349,7 +386,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <col width="8%"></col>
 <col width="12%"></col>
 <col width="6%"></col>
-<col width="3%"></col>
+<col width="4%"></col>
 <col width="6%"></col>
 <col width="6%"></col>
 <col width="7%"></col>
@@ -366,7 +403,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <th align="right">retail_hotels_restaurants</th>
 <th align="right">transport_communications_information</th>
 <th align="right">financial_services</th>
-<th align="right">real_state</th>
+<th align="right">real_estate</th>
 <th align="right">business_services</th>
 <th align="right">personal_services</th>
 <th align="right">public_administration</th>
@@ -503,7 +540,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">0.438</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.003</td>
 <td align="right">0.003</td>
 <td align="right">0.005</td>
@@ -588,11 +625,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="output-allocation-matrix" class="section level2">
 <h2>Output allocation matrix</h2>
 <p>Let <code>B</code> be the output allocation matrix.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>B &lt;-<span class="st"> </span><span class="kw">output_allocation</span>(X, d)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">rownames</span>(B) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">colnames</span>(B) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">kable</span>(B)</span></code></pre></div>
-<table style="width:100%;">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>B &lt;-<span class="st"> </span><span class="kw">output_allocation</span>(X, d)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="kw">rownames</span>(B) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="kw">colnames</span>(B) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="kw">kable</span>(B)</span></code></pre></div>
+<table>
 <colgroup>
 <col width="13%"></col>
 <col width="7%"></col>
@@ -619,7 +656,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <th align="right">retail_hotels_restaurants</th>
 <th align="right">transport_communications_information</th>
 <th align="right">financial_services</th>
-<th align="right">real_state</th>
+<th align="right">real_estate</th>
 <th align="right">business_services</th>
 <th align="right">personal_services</th>
 <th align="right">public_administration</th>
@@ -747,7 +784,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">0.002</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.003</td>
 <td align="right">0.006</td>
 <td align="right">0.019</td>
@@ -812,11 +849,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="leontief-inverse-matrix" class="section level2">
 <h2>Leontief inverse matrix</h2>
 <p>Let <code>I</code> be the identity matrix. Leontief inverse is the same as solving <code>I - A</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>L &lt;-<span class="st"> </span><span class="kw">leontief_inverse</span>(A); </span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">rownames</span>(L) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">colnames</span>(L) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">kable</span>(L)</span></code></pre></div>
-<table style="width:100%;">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>L &lt;-<span class="st"> </span><span class="kw">leontief_inverse</span>(A)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">rownames</span>(L) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="kw">colnames</span>(L) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="kw">kable</span>(L)</span></code></pre></div>
+<table>
 <colgroup>
 <col width="13%"></col>
 <col width="7%"></col>
@@ -843,7 +880,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <th align="right">retail_hotels_restaurants</th>
 <th align="right">transport_communications_information</th>
 <th align="right">financial_services</th>
-<th align="right">real_state</th>
+<th align="right">real_estate</th>
 <th align="right">business_services</th>
 <th align="right">personal_services</th>
 <th align="right">public_administration</th>
@@ -971,7 +1008,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">0.011</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.014</td>
 <td align="right">0.011</td>
 <td align="right">0.016</td>
@@ -1036,10 +1073,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="equilibrium-output" class="section level2">
 <h2>Equilibrium output</h2>
 <p>The required output is given by <code>L * d</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>eq &lt;-<span class="st"> </span><span class="kw">equilibrium_output</span>(L, d)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">rownames</span>(eq) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">colnames</span>(eq) &lt;-<span class="st"> &quot;output&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">kable</span>(eq)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>eq &lt;-<span class="st"> </span><span class="kw">equilibrium_output</span>(L, d)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">rownames</span>(eq) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="kw">colnames</span>(eq) &lt;-<span class="st"> &quot;output&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="kw">kable</span>(eq)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1081,7 +1118,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">21588</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">18686</td>
 </tr>
 <tr class="even">
@@ -1104,24 +1141,24 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="output-multiplier" class="section level3">
 <h3>Output multiplier</h3>
 <p>The output multiplier is the column sum of <code>L</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>out &lt;-<span class="st"> </span><span class="kw">output_multiplier</span>(L)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>out &lt;-<span class="st"> </span><span class="kw">output_multiplier</span>(L)</span></code></pre></div>
 </div>
 <div id="income-multiplier" class="section level3">
 <h3>Income multiplier</h3>
 <p>Let <code>W</code> be a matrix where each column is <code>w</code> with the same dimension as <code>L</code>. The income multiplier is the column sum of the element-wise multiplication of <code>L</code> and <code>W</code> element-wise divided by <code>w</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>inc &lt;-<span class="st"> </span><span class="kw">income_multiplier</span>(L, w<span class="op">/</span>d)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>inc &lt;-<span class="st"> </span><span class="kw">income_multiplier</span>(L, w <span class="op">/</span><span class="st"> </span>d)</span></code></pre></div>
 </div>
 <div id="employment-multiplier" class="section level3">
 <h3>Employment multiplier</h3>
 <p>Let <code>E</code> be a matrix where each column is <code>e</code> with the same dimension as <code>L</code>. The employment multiplier is the column sum of the element-wise multiplication of <code>L</code> and <code>E</code> element-wise divided by <code>e</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>emp &lt;-<span class="st"> </span><span class="kw">employment_multiplier</span>(L, e<span class="op">/</span>d)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>emp &lt;-<span class="st"> </span><span class="kw">employment_multiplier</span>(L, e <span class="op">/</span><span class="st"> </span>d)</span></code></pre></div>
 </div>
 <div id="summary-of-multipliers" class="section level3">
 <h3>Summary of multipliers</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>sm &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">cbind</span>(out,inc,emp),<span class="dv">4</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">rownames</span>(sm) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">colnames</span>(sm) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;output_multiplier&quot;</span>, <span class="st">&quot;income_multiplier&quot;</span>, <span class="st">&quot;employment_multiplier&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">kable</span>(sm)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>sm &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">cbind</span>(out, inc, emp), <span class="dv">4</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="kw">rownames</span>(sm) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="kw">colnames</span>(sm) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;output_multiplier&quot;</span>, <span class="st">&quot;income_multiplier&quot;</span>, <span class="st">&quot;employment_multiplier&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="kw">kable</span>(sm)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1170,7 +1207,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </tr>
 <tr class="odd">
 <td align="left">transport_communications_information</td>
-<td align="right">1.64</td>
+<td align="right">1.65</td>
 <td align="right">0.278</td>
 <td align="right">41.3</td>
 </tr>
@@ -1181,7 +1218,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">24.9</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">1.37</td>
 <td align="right">0.109</td>
 <td align="right">14.5</td>
@@ -1212,12 +1249,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>Linkages</h2>
 <div id="backward-and-forward-linkage" class="section level3">
 <h3>Backward and forward linkage</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>bl &lt;-<span class="st"> </span><span class="kw">backward_linkage</span>(A)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>fl &lt;-<span class="st"> </span><span class="kw">forward_linkage</span>(A)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>bfl &lt;-<span class="st"> </span><span class="kw">cbind</span>(bl,fl)</span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="kw">rownames</span>(bfl) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="kw">colnames</span>(bfl) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;backward_linkage&quot;</span>, <span class="st">&quot;forward_linkage&quot;</span>)</span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="kw">kable</span>(bfl)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>bl &lt;-<span class="st"> </span><span class="kw">backward_linkage</span>(A)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>fl &lt;-<span class="st"> </span><span class="kw">forward_linkage</span>(A)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>bfl &lt;-<span class="st"> </span><span class="kw">cbind</span>(bl, fl)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a><span class="kw">rownames</span>(bfl) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a><span class="kw">colnames</span>(bfl) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;backward_linkage&quot;</span>, <span class="st">&quot;forward_linkage&quot;</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a><span class="kw">kable</span>(bfl)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1268,7 +1305,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">0.330</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.217</td>
 <td align="right">0.159</td>
 </tr>
@@ -1292,12 +1329,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="power-of-dispersion" class="section level3">
 <h3>Power of dispersion</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>bl &lt;-<span class="st"> </span><span class="kw">power_dispersion</span>(L)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>bl_cv &lt;-<span class="st"> </span><span class="kw">power_dispersion_cv</span>(L)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>bl_t &lt;-<span class="st"> </span><span class="kw">cbind</span>(bl,bl_cv)</span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="kw">rownames</span>(bl_t) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="kw">colnames</span>(bl_t) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="kw">kable</span>(bl_t)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>bl &lt;-<span class="st"> </span><span class="kw">power_dispersion</span>(L)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>bl_cv &lt;-<span class="st"> </span><span class="kw">power_dispersion_cv</span>(L)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>bl_t &lt;-<span class="st"> </span><span class="kw">cbind</span>(bl, bl_cv)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="kw">rownames</span>(bl_t) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="kw">colnames</span>(bl_t) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a><span class="kw">kable</span>(bl_t)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1348,7 +1385,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">2.68</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.845</td>
 <td align="right">2.60</td>
 </tr>
@@ -1372,12 +1409,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="sensitivity-of-dispersion" class="section level3">
 <h3>Sensitivity of dispersion</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>sl &lt;-<span class="st"> </span><span class="kw">sensitivity_dispersion</span>(L)</span>
-<span id="cb12-2"><a href="#cb12-2"></a>sl_cv &lt;-<span class="st"> </span><span class="kw">sensitivity_dispersion_cv</span>(L)</span>
-<span id="cb12-3"><a href="#cb12-3"></a>sl_t &lt;-<span class="st"> </span><span class="kw">cbind</span>(sl,sl_cv)</span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="kw">rownames</span>(sl_t) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="kw">colnames</span>(sl_t) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="kw">kable</span>(sl_t)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>sl &lt;-<span class="st"> </span><span class="kw">sensitivity_dispersion</span>(L)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>sl_cv &lt;-<span class="st"> </span><span class="kw">sensitivity_dispersion_cv</span>(L)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>sl_t &lt;-<span class="st"> </span><span class="kw">cbind</span>(sl, sl_cv)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="kw">rownames</span>(sl_t) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a><span class="kw">colnames</span>(sl_t) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="kw">kable</span>(sl_t)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1428,7 +1465,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">2.52</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.779</td>
 <td align="right">2.84</td>
 </tr>
@@ -1452,11 +1489,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="multiplier-product-matrix" class="section level3">
 <h3>Multiplier product matrix</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mp &lt;-<span class="st"> </span><span class="kw">multiplier_product_matrix</span>(L)</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="kw">rownames</span>(mp) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">colnames</span>(mp) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="kw">kable</span>(mp)</span></code></pre></div>
-<table style="width:100%;">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>mp &lt;-<span class="st"> </span><span class="kw">multiplier_product_matrix</span>(L)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="kw">rownames</span>(mp) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="kw">colnames</span>(mp) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="kw">kable</span>(mp)</span></code></pre></div>
+<table>
 <colgroup>
 <col width="13%"></col>
 <col width="7%"></col>
@@ -1483,7 +1520,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <th align="right">retail_hotels_restaurants</th>
 <th align="right">transport_communications_information</th>
 <th align="right">financial_services</th>
-<th align="right">real_state</th>
+<th align="right">real_estate</th>
 <th align="right">business_services</th>
 <th align="right">personal_services</th>
 <th align="right">public_administration</th>
@@ -1611,7 +1648,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">0.076</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.110</td>
 <td align="right">0.084</td>
 <td align="right">0.174</td>
@@ -1675,13 +1712,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="induced-effects-laborconsumption" class="section level3">
 <h3>Induced effects (labor/consumption)</h3>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>bli &lt;-<span class="st"> </span><span class="kw">backward_linkage</span>(A_aug)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>fli &lt;-<span class="st"> </span><span class="kw">forward_linkage</span>(A_aug)</span>
-<span id="cb14-3"><a href="#cb14-3"></a>bfli &lt;-<span class="st"> </span><span class="kw">cbind</span>(bli,fli)</span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="kw">rownames</span>(bfli) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;wage&quot;</span>)</span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co"># wie = with induced effect</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="kw">colnames</span>(bfli) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;backward_linkage_wie&quot;</span>, <span class="st">&quot;forward_linkage_wie&quot;</span>)</span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="kw">kable</span>(bfli)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>bli &lt;-<span class="st"> </span><span class="kw">backward_linkage</span>(A_aug)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>fli &lt;-<span class="st"> </span><span class="kw">forward_linkage</span>(A_aug)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>bfli &lt;-<span class="st"> </span><span class="kw">cbind</span>(bli, fli)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="kw">rownames</span>(bfli) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;wage&quot;</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a><span class="co"># wie = with induced effect</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a><span class="kw">colnames</span>(bfli) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;backward_linkage_wie&quot;</span>, <span class="st">&quot;forward_linkage_wie&quot;</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a><span class="kw">kable</span>(bfli)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1732,7 +1769,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td align="right">0.768</td>
 </tr>
 <tr class="odd">
-<td align="left">real_state</td>
+<td align="left">real_estate</td>
 <td align="right">0.247</td>
 <td align="right">0.858</td>
 </tr>
