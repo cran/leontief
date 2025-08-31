@@ -27,46 +27,32 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -78,55 +64,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -358,39 +343,42 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <div id="common-variables" class="section level2">
 <h2>Common variables</h2>
-<p>Let <code>X</code> be the input-output matrix, <code>w</code> the wage vector, <code>c</code> the household consumption vector, <code>d</code> the total final demand vector, and <code>e</code> the employment coefficient.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">library</span>(leontief)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>X &lt;-<span class="st"> </span>transaction_matrix</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>w &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;wage&quot;</span>]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>c &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;household_consumption&quot;</span>]</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>d &lt;-<span class="st"> </span>wage_demand_matrix[, <span class="st">&quot;final_total_demand&quot;</span>]</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>e &lt;-<span class="st"> </span>employment_matrix[, <span class="st">&quot;employees&quot;</span>]</span></code></pre></div>
+<p>Let <code>X</code> be the input-output matrix, <code>w</code> the
+wage vector, <code>c</code> the household consumption vector,
+<code>d</code> the total final demand vector, and <code>e</code> the
+employment coefficient.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(leontief)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>X <span class="ot">&lt;-</span> transaction_matrix</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>w <span class="ot">&lt;-</span> wage_demand_matrix[, <span class="st">&quot;wage&quot;</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>c <span class="ot">&lt;-</span> wage_demand_matrix[, <span class="st">&quot;household_consumption&quot;</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>d <span class="ot">&lt;-</span> wage_demand_matrix[, <span class="st">&quot;final_total_demand&quot;</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>e <span class="ot">&lt;-</span> employment_matrix[, <span class="st">&quot;employees&quot;</span>]</span></code></pre></div>
 </div>
 <div id="input-requirement-matrix" class="section level2">
 <h2>Input requirement matrix</h2>
 <p>Let <code>A</code> be the direct coefficients matrix.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>A &lt;-<span class="st"> </span><span class="kw">input_requirement</span>(X, d)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>A_aug &lt;-<span class="st"> </span><span class="kw">augmented_input_requirement</span>(X, w, c, d)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">rownames</span>(A_aug) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;wage_over_demand&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="kw">colnames</span>(A_aug) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;consumption_over_demand&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="kw">kable</span>(A_aug)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">input_requirement</span>(X, d)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>A_aug <span class="ot">&lt;-</span> <span class="fu">augmented_input_requirement</span>(X, w, c, d)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">rownames</span>(A_aug) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rownames</span>(X), <span class="st">&quot;wage_over_demand&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">colnames</span>(A_aug) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rownames</span>(X), <span class="st">&quot;consumption_over_demand&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">kable</span>(A_aug)</span></code></pre></div>
 <table style="width:100%;">
 <colgroup>
-<col width="12%"></col>
-<col width="6%"></col>
-<col width="2%"></col>
-<col width="7%"></col>
-<col width="7%"></col>
-<col width="4%"></col>
-<col width="8%"></col>
-<col width="12%"></col>
-<col width="6%"></col>
-<col width="4%"></col>
-<col width="6%"></col>
-<col width="6%"></col>
-<col width="7%"></col>
-<col width="8%"></col>
+<col width="12%" />
+<col width="6%" />
+<col width="2%" />
+<col width="7%" />
+<col width="7%" />
+<col width="4%" />
+<col width="8%" />
+<col width="12%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -625,25 +613,25 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="output-allocation-matrix" class="section level2">
 <h2>Output allocation matrix</h2>
 <p>Let <code>B</code> be the output allocation matrix.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>B &lt;-<span class="st"> </span><span class="kw">output_allocation</span>(X, d)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="kw">rownames</span>(B) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="kw">colnames</span>(B) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="kw">kable</span>(B)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">output_allocation</span>(X, d)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">rownames</span>(B) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">colnames</span>(B) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">kable</span>(B)</span></code></pre></div>
 <table>
 <colgroup>
-<col width="13%"></col>
-<col width="7%"></col>
-<col width="2%"></col>
-<col width="8%"></col>
-<col width="8%"></col>
-<col width="4%"></col>
-<col width="9%"></col>
-<col width="13%"></col>
-<col width="6%"></col>
-<col width="4%"></col>
-<col width="6%"></col>
-<col width="6%"></col>
-<col width="8%"></col>
+<col width="13%" />
+<col width="7%" />
+<col width="2%" />
+<col width="8%" />
+<col width="8%" />
+<col width="4%" />
+<col width="9%" />
+<col width="13%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -848,26 +836,27 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="leontief-inverse-matrix" class="section level2">
 <h2>Leontief inverse matrix</h2>
-<p>Let <code>I</code> be the identity matrix. Leontief inverse is the same as solving <code>I - A</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>L &lt;-<span class="st"> </span><span class="kw">leontief_inverse</span>(A)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">rownames</span>(L) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="kw">colnames</span>(L) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="kw">kable</span>(L)</span></code></pre></div>
+<p>Let <code>I</code> be the identity matrix. Leontief inverse is the
+same as solving <code>I - A</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">leontief_inverse</span>(A)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">rownames</span>(L) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">colnames</span>(L) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">kable</span>(L)</span></code></pre></div>
 <table>
 <colgroup>
-<col width="13%"></col>
-<col width="7%"></col>
-<col width="2%"></col>
-<col width="8%"></col>
-<col width="8%"></col>
-<col width="4%"></col>
-<col width="9%"></col>
-<col width="13%"></col>
-<col width="6%"></col>
-<col width="4%"></col>
-<col width="6%"></col>
-<col width="6%"></col>
-<col width="8%"></col>
+<col width="13%" />
+<col width="7%" />
+<col width="2%" />
+<col width="8%" />
+<col width="8%" />
+<col width="4%" />
+<col width="9%" />
+<col width="13%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1073,10 +1062,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="equilibrium-output" class="section level2">
 <h2>Equilibrium output</h2>
 <p>The required output is given by <code>L * d</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>eq &lt;-<span class="st"> </span><span class="kw">equilibrium_output</span>(L, d)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">rownames</span>(eq) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="kw">colnames</span>(eq) &lt;-<span class="st"> &quot;output&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="kw">kable</span>(eq)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>eq <span class="ot">&lt;-</span> <span class="fu">equilibrium_output</span>(L, d)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">rownames</span>(eq) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">colnames</span>(eq) <span class="ot">&lt;-</span> <span class="st">&quot;output&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">kable</span>(eq)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1141,25 +1130,37 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="output-multiplier" class="section level3">
 <h3>Output multiplier</h3>
 <p>The output multiplier is the column sum of <code>L</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>out &lt;-<span class="st"> </span><span class="kw">output_multiplier</span>(L)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">output_multiplier</span>(L)</span></code></pre></div>
 </div>
 <div id="income-multiplier" class="section level3">
 <h3>Income multiplier</h3>
-<p>Let <code>W</code> be a matrix where each column is <code>w</code> with the same dimension as <code>L</code>. The income multiplier is the column sum of the element-wise multiplication of <code>L</code> and <code>W</code> element-wise divided by <code>w</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>inc &lt;-<span class="st"> </span><span class="kw">income_multiplier</span>(L, w <span class="op">/</span><span class="st"> </span>d)</span></code></pre></div>
+<p>Let <code>W</code> be a matrix where each column is <code>w</code>
+with the same dimension as <code>L</code>. The income multiplier is the
+column sum of the element-wise multiplication of <code>L</code> and
+<code>W</code> element-wise divided by <code>w</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>inc <span class="ot">&lt;-</span> <span class="fu">income_multiplier</span>(L, w <span class="sc">/</span> d)</span></code></pre></div>
 </div>
 <div id="employment-multiplier" class="section level3">
 <h3>Employment multiplier</h3>
-<p>Let <code>E</code> be a matrix where each column is <code>e</code> with the same dimension as <code>L</code>. The employment multiplier is the column sum of the element-wise multiplication of <code>L</code> and <code>E</code> element-wise divided by <code>e</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>emp &lt;-<span class="st"> </span><span class="kw">employment_multiplier</span>(L, e <span class="op">/</span><span class="st"> </span>d)</span></code></pre></div>
+<p>Let <code>E</code> be a matrix where each column is <code>e</code>
+with the same dimension as <code>L</code>. The employment multiplier is
+the column sum of the element-wise multiplication of <code>L</code> and
+<code>E</code> element-wise divided by <code>e</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>emp <span class="ot">&lt;-</span> <span class="fu">employment_multiplier</span>(L, e <span class="sc">/</span> d)</span></code></pre></div>
 </div>
 <div id="summary-of-multipliers" class="section level3">
 <h3>Summary of multipliers</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>sm &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">cbind</span>(out, inc, emp), <span class="dv">4</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="kw">rownames</span>(sm) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="kw">colnames</span>(sm) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;output_multiplier&quot;</span>, <span class="st">&quot;income_multiplier&quot;</span>, <span class="st">&quot;employment_multiplier&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="kw">kable</span>(sm)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>sm <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cbind</span>(out, inc, emp), <span class="dv">4</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">rownames</span>(sm) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">colnames</span>(sm) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;output_multiplier&quot;</span>, <span class="st">&quot;income_multiplier&quot;</span>, <span class="st">&quot;employment_multiplier&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">kable</span>(sm)</span></code></pre></div>
 <table>
+<colgroup>
+<col width="38%" />
+<col width="18%" />
+<col width="18%" />
+<col width="23%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1249,13 +1250,18 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>Linkages</h2>
 <div id="backward-and-forward-linkage" class="section level3">
 <h3>Backward and forward linkage</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>bl &lt;-<span class="st"> </span><span class="kw">backward_linkage</span>(A)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>fl &lt;-<span class="st"> </span><span class="kw">forward_linkage</span>(A)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>bfl &lt;-<span class="st"> </span><span class="kw">cbind</span>(bl, fl)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a><span class="kw">rownames</span>(bfl) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a><span class="kw">colnames</span>(bfl) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;backward_linkage&quot;</span>, <span class="st">&quot;forward_linkage&quot;</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a><span class="kw">kable</span>(bfl)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>bl <span class="ot">&lt;-</span> <span class="fu">backward_linkage</span>(A)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>fl <span class="ot">&lt;-</span> <span class="fu">forward_linkage</span>(A)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>bfl <span class="ot">&lt;-</span> <span class="fu">cbind</span>(bl, fl)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">rownames</span>(bfl) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">colnames</span>(bfl) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;backward_linkage&quot;</span>, <span class="st">&quot;forward_linkage&quot;</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">kable</span>(bfl)</span></code></pre></div>
 <table>
+<colgroup>
+<col width="52%" />
+<col width="24%" />
+<col width="22%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1329,13 +1335,18 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="power-of-dispersion" class="section level3">
 <h3>Power of dispersion</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>bl &lt;-<span class="st"> </span><span class="kw">power_dispersion</span>(L)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>bl_cv &lt;-<span class="st"> </span><span class="kw">power_dispersion_cv</span>(L)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>bl_t &lt;-<span class="st"> </span><span class="kw">cbind</span>(bl, bl_cv)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="kw">rownames</span>(bl_t) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="kw">colnames</span>(bl_t) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a><span class="kw">kable</span>(bl_t)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>bl <span class="ot">&lt;-</span> <span class="fu">power_dispersion</span>(L)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>bl_cv <span class="ot">&lt;-</span> <span class="fu">power_dispersion_cv</span>(L)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>bl_t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(bl, bl_cv)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">rownames</span>(bl_t) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">colnames</span>(bl_t) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">kable</span>(bl_t)</span></code></pre></div>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="22%" />
+<col width="27%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1409,13 +1420,18 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="sensitivity-of-dispersion" class="section level3">
 <h3>Sensitivity of dispersion</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>sl &lt;-<span class="st"> </span><span class="kw">sensitivity_dispersion</span>(L)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>sl_cv &lt;-<span class="st"> </span><span class="kw">sensitivity_dispersion_cv</span>(L)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>sl_t &lt;-<span class="st"> </span><span class="kw">cbind</span>(sl, sl_cv)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="kw">rownames</span>(sl_t) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a><span class="kw">colnames</span>(sl_t) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="kw">kable</span>(sl_t)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>sl <span class="ot">&lt;-</span> <span class="fu">sensitivity_dispersion</span>(L)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>sl_cv <span class="ot">&lt;-</span> <span class="fu">sensitivity_dispersion_cv</span>(L)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>sl_t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sl, sl_cv)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">rownames</span>(sl_t) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">colnames</span>(sl_t) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;power_dispersion&quot;</span>, <span class="st">&quot;power_dispersion_cv&quot;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="fu">kable</span>(sl_t)</span></code></pre></div>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="22%" />
+<col width="27%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1489,25 +1505,25 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="multiplier-product-matrix" class="section level3">
 <h3>Multiplier product matrix</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>mp &lt;-<span class="st"> </span><span class="kw">multiplier_product_matrix</span>(L)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="kw">rownames</span>(mp) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="kw">colnames</span>(mp) &lt;-<span class="st"> </span><span class="kw">rownames</span>(X)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="kw">kable</span>(mp)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>mp <span class="ot">&lt;-</span> <span class="fu">multiplier_product_matrix</span>(L)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">rownames</span>(mp) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">colnames</span>(mp) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">kable</span>(mp)</span></code></pre></div>
 <table>
 <colgroup>
-<col width="13%"></col>
-<col width="7%"></col>
-<col width="2%"></col>
-<col width="8%"></col>
-<col width="8%"></col>
-<col width="4%"></col>
-<col width="9%"></col>
-<col width="13%"></col>
-<col width="6%"></col>
-<col width="4%"></col>
-<col width="6%"></col>
-<col width="6%"></col>
-<col width="8%"></col>
+<col width="13%" />
+<col width="7%" />
+<col width="2%" />
+<col width="8%" />
+<col width="8%" />
+<col width="4%" />
+<col width="9%" />
+<col width="13%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1712,14 +1728,19 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="induced-effects-laborconsumption" class="section level3">
 <h3>Induced effects (labor/consumption)</h3>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>bli &lt;-<span class="st"> </span><span class="kw">backward_linkage</span>(A_aug)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>fli &lt;-<span class="st"> </span><span class="kw">forward_linkage</span>(A_aug)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>bfli &lt;-<span class="st"> </span><span class="kw">cbind</span>(bli, fli)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="kw">rownames</span>(bfli) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(X), <span class="st">&quot;wage&quot;</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a><span class="co"># wie = with induced effect</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a><span class="kw">colnames</span>(bfli) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;backward_linkage_wie&quot;</span>, <span class="st">&quot;forward_linkage_wie&quot;</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a><span class="kw">kable</span>(bfli)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>bli <span class="ot">&lt;-</span> <span class="fu">backward_linkage</span>(A_aug)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>fli <span class="ot">&lt;-</span> <span class="fu">forward_linkage</span>(A_aug)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>bfli <span class="ot">&lt;-</span> <span class="fu">cbind</span>(bli, fli)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">rownames</span>(bfli) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rownames</span>(X), <span class="st">&quot;wage&quot;</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co"># wie = with induced effect</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="fu">colnames</span>(bfli) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;backward_linkage_wie&quot;</span>, <span class="st">&quot;forward_linkage_wie&quot;</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="fu">kable</span>(bfli)</span></code></pre></div>
 <table>
+<colgroup>
+<col width="47%" />
+<col width="26%" />
+<col width="25%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1799,8 +1820,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
-<p>Schuschny, Andres Ricardo. <em>Topicos sobre el modelo de insumo-producto: teoria y aplicaciones</em>. Cepal, 2005.</p>
-<p>Pino Arriagada, Andres y Fuentes Navarro, Silvia. <em>Derivacion y analisis de los multiplicadores de empleo para la economia nacional</em>. Universidad del Bio-Bio, 2018.</p>
+<p>Schuschny, Andres Ricardo. <em>Topicos sobre el modelo de
+insumo-producto: teoria y aplicaciones</em>. Cepal, 2005.</p>
+<p>Pino Arriagada, Andres y Fuentes Navarro, Silvia. <em>Derivacion y
+analisis de los multiplicadores de empleo para la economia
+nacional</em>. Universidad del Bio-Bio, 2018.</p>
 </div>
 
 
